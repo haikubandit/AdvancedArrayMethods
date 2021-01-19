@@ -24,15 +24,26 @@ Examples:
     vowelCount('I Am awesome and so are you') // {i: 1, a: 4, e: 3, o: 3, u: 1};
 */
 
+// function vowelCount(str) {
+// 	return str.toLowerCase().split('').reduce(function(keys, letter) {
+// 		const vowels = 'aeiou';
+// 		if (vowels.indexOf(letter) !== -1) {
+// 			if (keys[letter]) {
+// 				keys[letter]++;
+// 			} else {
+// 				keys[letter] = 1;
+// 			}
+// 		}
+// 		return keys;
+// 	}, {});
+// }
+
 function vowelCount(str) {
-	return str.toLowerCase().split('').reduce(function(keys, letter) {
-		const vowels = 'aeiou';
-		if (vowels.indexOf(letter) !== -1) {
-			if (keys[letter]) {
-				keys[letter]++;
-			} else {
-				keys[letter] = 1;
-			}
+	return str.split('').reduce(function(keys, letter) {
+		const vowels = new Set('aeiouAEIOU');
+		if (vowels.has(letter)) {
+			let lower = letter.toLowerCase();
+			keys[lower] = ++keys[lower] || 1;
 		}
 		return keys;
 	}, {});
@@ -53,7 +64,14 @@ Examples:
        ]
 */
 
-function addKeyAndValue(arr, key, value) {}
+// remember you can use the index
+
+function addKeyAndValue(arr, key, value) {
+	return arr.reduce(function(keys, nextValue, idx) {
+		keys[idx][key] = value;
+		return keys;
+	}, arr);
+}
 
 /*
 Write a function called partition which accepts an array and a callback and returns an array with two arrays inside of it. The partition function should run the callback function on each value in the array and if the result of the callback function at that specific value is true, the value should be placed in the first subarray. If the result of the callback function at that specific value is false, the value should be placed in the second subarray. 
@@ -77,4 +95,16 @@ Examples:
     partition(names, isLongerThanThreeCharacters) // [['Elie', 'Colt', 'Matt'], ['Tim']]
 */
 
-function partition(arr, callback) {}
+function partition(arr, callback) {
+	return arr.reduce(
+		function(acc, next, idx) {
+			if (callback(arr[idx])) {
+				acc[0].push(arr[idx]);
+			} else {
+				acc[1].push(arr[idx]);
+			}
+			return acc;
+		},
+		[[], []]
+	);
+}
