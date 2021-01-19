@@ -8,8 +8,9 @@ Examples:
 
 function extractValue(arr, key) {
 	return arr.reduce(function(names, nextName) {
-		return [names].push(nextName);
-	});
+		names.push(nextName[key]);
+		return names;
+	}, []);
 }
 
 /*
@@ -23,7 +24,19 @@ Examples:
     vowelCount('I Am awesome and so are you') // {i: 1, a: 4, e: 3, o: 3, u: 1};
 */
 
-function vowelCount(str) {}
+function vowelCount(str) {
+	return str.toLowerCase().split('').reduce(function(keys, letter) {
+		const vowels = 'aeiou';
+		if (vowels.indexOf(letter) !== -1) {
+			if (keys[letter]) {
+				keys[letter]++;
+			} else {
+				keys[letter] = 1;
+			}
+		}
+		return keys;
+	}, {});
+}
 
 /*
 Write a function called addKeyAndValue which accepts an array of objects and returns the array of objects passed to it with each object now including the key and value passed to the function.
